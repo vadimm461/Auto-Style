@@ -42,6 +42,9 @@ const defaultSalaryGroups = [
 
 let db = null;
 let fb = null;
+let auth = null;
+let authMod = null;
+let currentAdmin = null;
 let data = clone(fallbackData);
 let products = [];
 let deletedProductIds = [];
@@ -83,16 +86,135 @@ async function initFirebase() {
     try {
         const appMod = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
         const fsMod = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js");
+        authMod = await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js");
 
         fb = fsMod;
         const app = appMod.initializeApp(config);
         db = fsMod.getFirestore(app);
+        auth = authMod.getAuth(app);
         return true;
     } catch (error) {
         console.error(error);
         setStatus("Firebase не подключился. Проверь firebase-config.js и интернет.", "error");
         return false;
     }
+}
+
+
+function showAuthGate(message = "") {
+    const gate = $("authGate");
+    if (gate) gate.classList.remove("hidden");
+    const error = $("authError");
+    if (error) error.textContent = message;
+    const session = $("adminSession");
+    if (session) session.hidden = true;
+}
+
+function hideAuthGate(user) {
+    const gate = $("authGate");
+    if (gate) gate.classList.add("hidden");
+    const session = $("adminSession");
+    if (session) session.hidden = false;
+    const email = $("adminEmail");
+    if (email) email.textContent = user?.email || "Администратор";
+}
+
+async function hasAdminRole(user) {
+    if (!user || !db || !fb) return false;
+
+    const refs = [
+        fb.doc(db, "autostyle_users", user.uid),
+        fb.doc(db, "users", user.uid)
+    ];
+
+    for (const ref of refs) {
+        try {
+            const snap = await withTimeout(fb.getDoc(ref));
+            if (snap.exists() && snap.data()?.role === "admin") return true;
+        } catch (error) {
+            console.warn("Не удалось проверить роль администратора:", error);
+        }
+    }
+
+    return false;
+}
+
+async function requireAdminAuth() {
+    if (!auth || !authMod) return false;
+
+    const user = await new Promise(resolve => {
+        const unsubscribe = authMod.onAuthStateChanged(auth, value => {
+            unsubscribe();
+            resolve(value);
+        });
+    });
+
+    if (!user) {
+        showAuthGate();
+        return false;
+    }
+
+    const allowed = await hasAdminRole(user);
+    if (!allowed) {
+        await authMod.signOut(auth);
+        showAuthGate("У этого аккаунта нет роли admin в users/UID или autostyle_users/UID.");
+        return false;
+    }
+
+    currentAdmin = user;
+    hideAuthGate(user);
+    return true;
+}
+
+async function handleAdminLogin(event) {
+    event.preventDefault();
+    const email = $("authEmail")?.value.trim();
+    const password = $("authPassword")?.value || "";
+    const submit = $("authSubmit");
+    const error = $("authError");
+
+    if (error) error.textContent = "";
+    if (submit) {
+        submit.disabled = true;
+        submit.textContent = "Вход…";
+    }
+
+    try {
+        const credential = await authMod.signInWithEmailAndPassword(auth, email, password);
+        const allowed = await hasAdminRole(credential.user);
+
+        if (!allowed) {
+            await authMod.signOut(auth);
+            throw new Error("У аккаунта нет роли admin в Firestore.");
+        }
+
+        currentAdmin = credential.user;
+        hideAuthGate(credential.user);
+        setStatus("Вход выполнен. Загружаю данные…", "ok");
+        await loadAuthorizedData();
+    } catch (loginError) {
+        console.error(loginError);
+        const messages = {
+            "auth/invalid-credential": "Неверный email или пароль.",
+            "auth/user-not-found": "Пользователь не найден.",
+            "auth/wrong-password": "Неверный пароль.",
+            "auth/too-many-requests": "Слишком много попыток. Попробуй позже."
+        };
+        if (error) error.textContent = messages[loginError.code] || loginError.message || "Ошибка входа.";
+        showAuthGate(error?.textContent || "Ошибка входа.");
+    } finally {
+        if (submit) {
+            submit.disabled = false;
+            submit.textContent = "Войти";
+        }
+    }
+}
+
+async function logoutAdmin() {
+    if (auth && authMod) await authMod.signOut(auth);
+    currentAdmin = null;
+    showAuthGate();
+    setStatus("Выполнен выход из админ-панели.");
 }
 
 function setStatus(text, type = "") {
@@ -670,22 +792,38 @@ async function loadSalaryData() {
     }
 }
 
+async function loadAuthorizedData() {
+    await loadSiteData();
+    await loadProducts();
+    await loadSalaryData();
+}
+
 async function loadData() {
     setStatus("Загрузка данных…");
     injectSalaryAdminUI();
-    const ready = await initFirebase();
 
-    if (!ready) {
+    if (!db) {
+        const ready = await initFirebase();
+        if (!ready) {
+            data = clone(fallbackData);
+            renderAll();
+            renderProducts();
+            renderSalaryAdmin();
+            return;
+        }
+    }
+
+    const authorized = await requireAdminAuth();
+    if (!authorized) {
         data = clone(fallbackData);
         renderAll();
         renderProducts();
         renderSalaryAdmin();
+        setStatus("Войди через аккаунт администратора Firebase.", "error");
         return;
     }
 
-    await loadSiteData();
-    await loadProducts();
-    await loadSalaryData();
+    await loadAuthorizedData();
 }
 
 async function saveData() {
@@ -693,8 +831,9 @@ async function saveData() {
     collectProductsFromForm();
     collectSalaryFromForm();
 
-    if (!db) {
-        setStatus("Сохранение недоступно: проверь firebase-config.js.", "error");
+    if (!db || !auth?.currentUser || !currentAdmin) {
+        showAuthGate("Сначала войди через аккаунт администратора Firebase.");
+        setStatus("Сохранение недоступно без авторизации администратора.", "error");
         return;
     }
 
@@ -742,6 +881,9 @@ async function saveData() {
 
 function bindEvents() {
     injectSalaryAdminUI();
+
+    if ($("authForm")) $("authForm").addEventListener("submit", handleAdminLogin);
+    if ($("logoutAdminBtn")) $("logoutAdminBtn").addEventListener("click", logoutAdmin);
 
     document.querySelectorAll(".admin-tab").forEach(btn => {
         btn.addEventListener("click", () => {

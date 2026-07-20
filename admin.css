@@ -7,3 +7,32 @@
 .product-row-main{display:grid;grid-template-columns:100px 1.8fr 1fr 90px 90px 90px 90px;gap:8px;align-items:center}
 .product-row-main input,.product-row-main select{padding:9px!important;border-radius:10px!important}
 .compact-delete{padding:9px!important}
+
+/* Firebase Authentication gate */
+.auth-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(8, 17, 35, 0.94);
+  backdrop-filter: blur(10px);
+}
+.auth-gate.hidden { display: none; }
+.auth-card {
+  width: min(420px, 100%);
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 24px 70px rgba(0,0,0,.35);
+}
+.auth-card h2 { margin: 0 0 8px; }
+.auth-card p { margin: 0 0 20px; color: #667085; line-height: 1.45; }
+.auth-card label { display: block; margin: 12px 0 6px; font-weight: 700; }
+.auth-card input { width: 100%; box-sizing: border-box; }
+.auth-card .btn { width: 100%; margin-top: 18px; }
+.auth-error { min-height: 22px; margin-top: 12px; color: #e53935; font-weight: 700; }
+.admin-session { display: flex; align-items: center; gap: 10px; margin-top: 8px; color: #667085; font-size: 13px; }
+.admin-session button { border: 0; background: none; color: #e53935; font-weight: 700; cursor: pointer; padding: 0; }
