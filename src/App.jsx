@@ -1,9 +1,45 @@
 const img = (id, width = 700) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`;
 
+function CategoryIcon({ type }) {
+  const common = {
+    viewBox: '0 0 48 48',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 1.8,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    'aria-hidden': true,
+  };
+
+  const icons = {
+    all: <><rect x="7" y="7" width="13" height="13" rx="3"/><rect x="28" y="7" width="13" height="13" rx="3"/><rect x="7" y="28" width="13" height="13" rx="3"/><rect x="28" y="28" width="13" height="13" rx="3"/></>,
+    electronics: <><rect x="10" y="7" width="28" height="34" rx="5"/><line x1="19" y1="12" x2="29" y2="12"/><circle cx="24" cy="35.5" r="1.2"/></>,
+    fashion: <><path d="M16 10l5-3h6l5 3 7 6-5 7-4-3v20H18V20l-4 3-5-7 7-6z"/><path d="M21 7c0 3 1.4 5 3 5s3-2 3-5"/></>,
+    home: <><path d="M8 22L24 8l16 14"/><path d="M12 20v20h24V20"/><path d="M20 40V28h8v12"/></>,
+    beauty: <><path d="M18 17h12l2 23H16l2-23z"/><path d="M21 17v-5h6v5"/><path d="M20 12h8"/><path d="M24 7v5"/></>,
+    kids: <><rect x="10" y="19" width="28" height="19" rx="4"/><path d="M15 19v-5h6v5M27 19v-5h6v5"/><circle cx="18" cy="29" r="3"/><circle cx="30" cy="29" r="3"/></>,
+    sport: <><circle cx="24" cy="24" r="17"/><path d="M24 15l6 4-2 7h-8l-2-7 6-4z"/><path d="M18 19l-7-2M30 19l7-2M20 26l-4 8M28 26l4 8M16 34l-1 4M32 34l1 4"/></>,
+    auto: <><circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="5"/><path d="M24 7v12M9 30l11-4M39 30l-11-4"/><circle cx="24" cy="24" r="12"/></>,
+    build: <><path d="M8 30h32"/><path d="M12 30c0-9 5-16 12-16s12 7 12 16"/><path d="M24 14V8"/><path d="M17 16v10M31 16v10"/><path d="M10 30v5h28v-5"/></>,
+    pets: <><path d="M15 24c-3-2-5-6-3-9 2-3 6-1 7 3M33 24c3-2 5-6 3-9-2-3-6-1-7 3"/><path d="M16 22c2-5 14-5 16 0 3 8-1 17-8 17s-11-9-8-17z"/><circle cx="20" cy="27" r="1" fill="currentColor" stroke="none"/><circle cx="28" cy="27" r="1" fill="currentColor" stroke="none"/><path d="M21 33c2 2 4 2 6 0"/><path d="M23 31h2"/></>,
+    more: <><circle cx="12" cy="24" r="2" fill="currentColor" stroke="none"/><circle cx="24" cy="24" r="2" fill="currentColor" stroke="none"/><circle cx="36" cy="24" r="2" fill="currentColor" stroke="none"/></>,
+  };
+
+  return <svg {...common}>{icons[type]}</svg>;
+}
+
 const categories = [
-  ['▦', 'Все категории'], ['◉', 'Электроника'], ['♟', 'Одежда и обувь'], ['♣', 'Дом и сад'],
-  ['✿', 'Красота'], ['●', 'Детские товары'], ['⚽', 'Спорт и отдых'], ['◌', 'Автотовары'],
-  ['▲', 'Строительство'], ['♙', 'Животные'], ['•••', 'Ещё'],
+  { type: 'all', name: 'Все категории' },
+  { type: 'electronics', name: 'Электроника' },
+  { type: 'fashion', name: 'Одежда и обувь' },
+  { type: 'home', name: 'Дом и сад' },
+  { type: 'beauty', name: 'Красота' },
+  { type: 'kids', name: 'Детские товары' },
+  { type: 'sport', name: 'Спорт и отдых' },
+  { type: 'auto', name: 'Автотовары' },
+  { type: 'build', name: 'Строительство' },
+  { type: 'pets', name: 'Животные' },
+  { type: 'more', name: 'Ещё' },
 ];
 
 const products = [
@@ -115,7 +151,7 @@ function Home() {
   return <div className="page"><Header/><main id="top" className="layout"><div className="main-column">
     <section className="hero"><div className="hero-copy"><h1>Покупай и продавай<br/>что угодно на<br/><em>AS Market</em></h1><p>Одна площадка для миллионов возможностей</p><div className="hero-buttons"><button>К покупкам →</button><button className="outline">Стать продавцом</button></div><div className="trust"><span>✓ Безопасные сделки</span><span>✓ Защита покупателей</span><span>◉ Поддержка 24/7</span><span>✓ Выгодные условия</span></div></div><div className="hero-art"><div className="blob one"></div><div className="blob two"></div><div className="hero-items"><span>💐</span><span>📱</span><span>🧸</span><span>👜</span><span>🛠️</span><span>🚗</span></div></div></section>
     <EcosystemSlider/>
-    <section className="categories">{categories.map(([icon, name], i) => <button className={i === 0 ? 'active' : ''} key={name}><span>{icon}</span><small>{name}</small></button>)}</section>
+    <section className="categories">{categories.map(({ type, name }, i) => <button className={i === 0 ? 'active' : ''} key={name}><span><CategoryIcon type={type}/></span><small>{name}</small></button>)}</section>
     <section className="promo-grid"><article><h3>Магазины</h3><p>Тысячи магазинов<br/>на одной площадке</p><button>Смотреть все →</button><span>🏪</span></article><article><h3>VIP-магазины</h3><p>Лучшие продавцы<br/>с особыми условиями</p><button>Смотреть все →</button><span>♛</span></article><article><h3>Барахолка</h3><p>Покупай и продавай<br/>б/у вещи легко</p><button>Перейти →</button><span>🪑</span></article><article><h3>Автомобили</h3><p>Новые и б/у авто<br/>по лучшим ценам</p><a href="#/auto">Смотреть авто →</a><span>🚘</span></article><article><h3>Акции и скидки</h3><p>Выгодные предложения<br/>каждый день</p><button>Смотреть все →</button><span>%</span></article></section>
     <div className="split-products"><section><SectionTitle>Популярные товары</SectionTitle><div className="cards-row">{products.map(p => <ProductCard item={p} key={p.title}/>)}</div></section><section><SectionTitle>Б/у автомобили</SectionTitle><div className="cars-row">{cars.map(c => <CarCard item={c} key={c.title}/>)}</div></section></div>
     <section className="benefits"><div><b>♡</b><span><strong>Безопасные сделки</strong><small>Проверяем продавцов</small></span></div><div><b>▣</b><span><strong>Удобная доставка</strong><small>По всей стране и миру</small></span></div><div><b>◉</b><span><strong>Поддержка 24/7</strong><small>Мы всегда на связи</small></span></div><div><b>▭</b><span><strong>Простая оплата</strong><small>Карты и рассрочка</small></span></div></section>
