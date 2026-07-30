@@ -1,5 +1,4 @@
 :root {
-  --category-ink: #252a26;
   --category-surface: #eef1ed;
 }
 
@@ -10,23 +9,68 @@
   place-items: center;
   position: relative;
   overflow: visible;
-  color: var(--category-ink);
   font-size: 0 !important;
   line-height: 1 !important;
   filter: none !important;
 }
 
-.categories button > span > svg.category-icon {
+.categories button > span > .category-art {
   display: block !important;
   width: 52px !important;
   height: 52px !important;
-  color: inherit;
-  overflow: visible;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: transform .18s ease;
 }
 
-.categories button.active > span > svg.category-icon,
-.categories button:hover > span > svg.category-icon {
-  color: #329d0c;
+.categories button > span > .category-art-all {
+  background-image: url('../img/category-all.svg');
+}
+
+.categories button > span > .category-art-electronics {
+  background-image: url('../img/category-electronics.svg');
+}
+
+.categories button > span > .category-art-fashion {
+  background-image: url('../img/category-fashion.svg');
+}
+
+.categories button > span > .category-art-home {
+  background-image: url('../img/category-home.svg');
+}
+
+.categories button > span > .category-art-beauty {
+  background-image: url('../img/category-beauty.svg');
+}
+
+.categories button > span > .category-art-kids {
+  background-image: url('../img/category-kids.svg');
+}
+
+.categories button > span > .category-art-sport {
+  background-image: url('../img/category-sport.svg');
+}
+
+.categories button > span > .category-art-auto {
+  background-image: url('../img/category-auto.svg');
+}
+
+.categories button > span > .category-art-build {
+  background-image: url('../img/category-build.svg');
+}
+
+.categories button > span > .category-art-pets {
+  background-image: url('../img/category-pets.svg');
+}
+
+.categories button > span > .category-art-more {
+  background-image: url('../img/category-more.svg');
+}
+
+.categories button.active > span > .category-art,
+.categories button:hover > span > .category-art {
+  transform: scale(1.03);
 }
 
 .categories button > span::before {
