@@ -2,30 +2,133 @@ const img = (id, width = 700) => `https://images.unsplash.com/${id}?auto=format&
 
 function CategoryIcon({ type }) {
   const common = {
-    viewBox: '0 0 48 48',
+    viewBox: '0 0 64 64',
+    className: 'category-icon',
     fill: 'none',
     stroke: 'currentColor',
-    strokeWidth: 1.8,
+    strokeWidth: 2.5,
     strokeLinecap: 'round',
     strokeLinejoin: 'round',
     'aria-hidden': true,
+    focusable: 'false',
   };
 
   const icons = {
-    all: <><rect x="7" y="7" width="13" height="13" rx="3"/><rect x="28" y="7" width="13" height="13" rx="3"/><rect x="7" y="28" width="13" height="13" rx="3"/><rect x="28" y="28" width="13" height="13" rx="3"/></>,
-    electronics: <><rect x="10" y="7" width="28" height="34" rx="5"/><line x1="19" y1="12" x2="29" y2="12"/><circle cx="24" cy="35.5" r="1.2"/></>,
-    fashion: <><path d="M16 10l5-3h6l5 3 7 6-5 7-4-3v20H18V20l-4 3-5-7 7-6z"/><path d="M21 7c0 3 1.4 5 3 5s3-2 3-5"/></>,
-    home: <><path d="M8 22L24 8l16 14"/><path d="M12 20v20h24V20"/><path d="M20 40V28h8v12"/></>,
-    beauty: <><path d="M18 17h12l2 23H16l2-23z"/><path d="M21 17v-5h6v5"/><path d="M20 12h8"/><path d="M24 7v5"/></>,
-    kids: <><rect x="10" y="19" width="28" height="19" rx="4"/><path d="M15 19v-5h6v5M27 19v-5h6v5"/><circle cx="18" cy="29" r="3"/><circle cx="30" cy="29" r="3"/></>,
-    sport: <><circle cx="24" cy="24" r="17"/><path d="M24 15l6 4-2 7h-8l-2-7 6-4z"/><path d="M18 19l-7-2M30 19l7-2M20 26l-4 8M28 26l4 8M16 34l-1 4M32 34l1 4"/></>,
-    auto: <><circle cx="24" cy="24" r="17"/><circle cx="24" cy="24" r="5"/><path d="M24 7v12M9 30l11-4M39 30l-11-4"/><circle cx="24" cy="24" r="12"/></>,
-    build: <><path d="M8 30h32"/><path d="M12 30c0-9 5-16 12-16s12 7 12 16"/><path d="M24 14V8"/><path d="M17 16v10M31 16v10"/><path d="M10 30v5h28v-5"/></>,
-    pets: <><path d="M15 24c-3-2-5-6-3-9 2-3 6-1 7 3M33 24c3-2 5-6 3-9-2-3-6-1-7 3"/><path d="M16 22c2-5 14-5 16 0 3 8-1 17-8 17s-11-9-8-17z"/><circle cx="20" cy="27" r="1" fill="currentColor" stroke="none"/><circle cx="28" cy="27" r="1" fill="currentColor" stroke="none"/><path d="M21 33c2 2 4 2 6 0"/><path d="M23 31h2"/></>,
-    more: <><circle cx="12" cy="24" r="2" fill="currentColor" stroke="none"/><circle cx="24" cy="24" r="2" fill="currentColor" stroke="none"/><circle cx="36" cy="24" r="2" fill="currentColor" stroke="none"/></>,
+    all: (
+      <>
+        <g fill="currentColor" stroke="none">
+          <rect x="9" y="9" width="19" height="19" rx="4" />
+          <rect x="36" y="9" width="19" height="19" rx="4" />
+          <rect x="9" y="36" width="19" height="19" rx="4" />
+          <rect x="36" y="36" width="19" height="19" rx="4" />
+        </g>
+        <g fill="var(--category-surface)" stroke="none" opacity=".8">
+          <rect x="15" y="15" width="7" height="2" rx="1" />
+          <rect x="42" y="15" width="7" height="2" rx="1" />
+          <rect x="15" y="42" width="7" height="2" rx="1" />
+          <rect x="42" y="42" width="7" height="2" rx="1" />
+        </g>
+      </>
+    ),
+    electronics: (
+      <>
+        <path d="M14 34v-4a18 18 0 0 1 36 0v4" strokeWidth="4" />
+        <rect x="9" y="31" width="12" height="18" rx="6" fill="currentColor" stroke="none" />
+        <rect x="43" y="31" width="12" height="18" rx="6" fill="currentColor" stroke="none" />
+        <rect x="13" y="35" width="4" height="9" rx="2" fill="var(--category-surface)" stroke="none" opacity=".75" />
+        <rect x="47" y="35" width="4" height="9" rx="2" fill="var(--category-surface)" stroke="none" opacity=".75" />
+        <path d="M21 46c2 6 7 9 13 9h5" strokeWidth="2.4" />
+        <circle cx="42" cy="55" r="2" fill="currentColor" stroke="none" />
+      </>
+    ),
+    fashion: (
+      <>
+        <path d="M20 14l9-6h6l9 6 11 9-7 12-8-5v25H24V30l-8 5-7-12z" fill="currentColor" stroke="none" />
+        <path d="M27 8c0 7 10 7 10 0" stroke="var(--category-surface)" strokeWidth="2.5" />
+        <path d="M24 27v25M40 27v25M17 22l-3 9M47 22l3 9" stroke="var(--category-surface)" strokeWidth="2" opacity=".78" />
+        <path d="M25 52h14" stroke="var(--category-surface)" strokeWidth="2" opacity=".78" />
+      </>
+    ),
+    home: (
+      <>
+        <path d="M18 40h28l-4 17H22z" fill="currentColor" stroke="none" />
+        <path d="M21 45h22M22 52h20" stroke="var(--category-surface)" strokeWidth="2" opacity=".72" />
+        <path d="M32 41c0-7-1-13-5-18" strokeWidth="2.5" />
+        <path d="M31 38c-10-3-14-11-13-20 9 1 15 9 13 20z" fill="currentColor" stroke="none" />
+        <path d="M33 39c0-13 7-23 18-28 1 13-5 24-18 28z" fill="currentColor" stroke="none" opacity=".78" />
+        <path d="M31 35c5-8 11-12 18-12" stroke="var(--category-surface)" strokeWidth="2" opacity=".65" />
+      </>
+    ),
+    beauty: (
+      <>
+        <rect x="19" y="20" width="26" height="36" rx="5" fill="currentColor" stroke="none" />
+        <rect x="24" y="11" width="16" height="10" rx="2.5" fill="currentColor" stroke="none" />
+        <rect x="28" y="7" width="8" height="5" rx="1.5" fill="currentColor" stroke="none" />
+        <rect x="23" y="30" width="18" height="12" rx="2.5" fill="var(--category-surface)" stroke="none" opacity=".82" />
+        <path d="M26 35h12M28 39h8" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M23 24h18" stroke="var(--category-surface)" strokeWidth="2" opacity=".7" />
+      </>
+    ),
+    kids: (
+      <>
+        <circle cx="20" cy="18" r="10" fill="currentColor" stroke="none" />
+        <circle cx="44" cy="18" r="10" fill="currentColor" stroke="none" />
+        <circle cx="32" cy="34" r="21" fill="currentColor" stroke="none" />
+        <ellipse cx="32" cy="43" rx="9" ry="7" fill="var(--category-surface)" stroke="none" opacity=".9" />
+        <circle cx="25" cy="31" r="2.7" fill="var(--category-ink)" stroke="none" />
+        <circle cx="39" cy="31" r="2.7" fill="var(--category-ink)" stroke="none" />
+        <path d="M29 42h6M27 48c3 2 7 2 10 0" stroke="var(--category-ink)" strokeWidth="2" />
+        <path d="M21 52h22" stroke="var(--category-surface)" strokeWidth="2" opacity=".65" />
+      </>
+    ),
+    sport: (
+      <>
+        <circle cx="32" cy="32" r="25" fill="var(--category-surface)" stroke="currentColor" strokeWidth="3" />
+        <path d="M32 14l10 7-4 12H26l-4-12z" fill="currentColor" stroke="none" />
+        <path d="M22 21l-9 8M42 21l9 8M26 33l-6 18M38 33l6 18M14 40h12M38 40h12" stroke="currentColor" strokeWidth="3" />
+        <path d="M26 33h12" stroke="var(--category-surface)" strokeWidth="2" opacity=".8" />
+      </>
+    ),
+    auto: (
+      <>
+        <circle cx="32" cy="32" r="26" fill="currentColor" stroke="none" />
+        <circle cx="32" cy="32" r="19" fill="var(--category-surface)" stroke="none" />
+        <circle cx="32" cy="32" r="7" fill="currentColor" stroke="none" />
+        <g stroke="var(--category-ink)" strokeWidth="3.5">
+          <path d="M32 13v12M32 39v12M13 32h12M39 32h12" />
+          <path d="M19 19l9 9M36 36l9 9M45 19l-9 9M28 36l-9 9" />
+        </g>
+        <circle cx="32" cy="32" r="2.5" fill="var(--category-surface)" stroke="none" />
+      </>
+    ),
+    build: (
+      <>
+        <path d="M9 43h46v9H9z" fill="currentColor" stroke="none" />
+        <path d="M14 41c1-16 9-26 18-28 10 2 18 12 19 28z" fill="currentColor" stroke="none" />
+        <path d="M27 14h10v27H27z" fill="var(--category-surface)" stroke="none" opacity=".62" />
+        <path d="M12 41h40M24 52h16" stroke="var(--category-ink)" strokeWidth="2.5" />
+      </>
+    ),
+    pets: (
+      <>
+        <path d="M18 25L10 12l14 6 8-7 8 7 14-6-8 13v16c0 10-6 16-14 16s-14-6-14-16z" fill="currentColor" stroke="none" />
+        <ellipse cx="32" cy="42" rx="9" ry="6.5" fill="var(--category-surface)" stroke="none" opacity=".9" />
+        <circle cx="25" cy="32" r="2.6" fill="var(--category-ink)" stroke="none" />
+        <circle cx="39" cy="32" r="2.6" fill="var(--category-ink)" stroke="none" />
+        <path d="M29 42h6M26 50c4 2 8 2 12 0" stroke="var(--category-ink)" strokeWidth="2" />
+        <path d="M16 23l-4-7M48 23l4-7" stroke="var(--category-surface)" strokeWidth="2" opacity=".7" />
+      </>
+    ),
+    more: (
+      <g fill="currentColor" stroke="none">
+        <circle cx="16" cy="32" r="4" />
+        <circle cx="32" cy="32" r="4" />
+        <circle cx="48" cy="32" r="4" />
+      </g>
+    ),
   };
 
-  return <svg {...common}>{icons[type]}</svg>;
+  return <svg {...common}>{icons[type] || icons.all}</svg>;
 }
 
 const categories = [
