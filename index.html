@@ -1,80 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-    <title>AUTO-STYLE</title>
-
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="shortcut icon" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
-
-    <meta name="theme-color" content="#2e7d32">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<div class="login-screen" id="loginScreen">
-    <div class="login-box">
-        <div class="login-title"><span>A</span>uto-<span>S</span>tyle</div>
-
-        <select id="userSelect">
-            <option value="cashier">Кассир</option>
-            <option value="evgeniy">Евгений</option>
-            <option value="vadim">Вадим</option>
-        </select>
-
-        <input type="password" id="passwordInput" placeholder="Введите пароль">
-
-        <button class="login-btn" id="loginBtn">ВОЙТИ</button>
-        <div id="errorMsg"></div>
-    </div>
-</div>
-
-<div class="app" id="app">
-    <header class="header">
-        <div class="header-inner">
-            <div class="logo">
-                <img src="favicon.png" alt="AUTO-STYLE" class="logo-icon">
-                <div class="logo-text">
-                    <div class="logo-title"><span class="green">A</span>uto-<span class="green">S</span>tyle</div>
-                    <div class="logo-subtitle">ПАНЕЛЬ МЕНЕДЖЕРА</div>
-                </div>
-            </div>
-
-            <div class="user-box" id="currentUser">👤 Пользователь</div>
-        </div>
-    </header>
-
-    <main class="main">
-        <section id="newsContainer"></section>
-
-        <section>
-            <div class="section-title">Калькуляторы рассрочки</div>
-            <div class="calculators" id="calculatorsContainer"></div>
-        </section>
-
-        <section class="navigation">
-            <div class="section-title">Инструменты AUTO-STYLE</div>
-            <div class="menu-grid" id="menuGrid"></div>
-        </section>
-
-        <div class="footer">AUTO-STYLE © 2026</div>
-    </main>
-</div>
-
-<script type="module" src="app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#2f9e0b" />
+    <title>AS Market</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
-
-
-
-
-
-
-
