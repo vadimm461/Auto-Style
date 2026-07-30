@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './hash-router.js';
 import App from './App.jsx';
 import './styles.css';
 import './ecosystem.css';
