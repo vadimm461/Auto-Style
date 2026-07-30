@@ -52,6 +52,27 @@ const services = [
   {key:'jobs',icon:BriefcaseBusiness,title:'AS Работа',text:'Вакансии, резюме, подработка и удалённая работа',tags:['Вакансии','Резюме','Без опыта'],action:'Найти работу'}
 ];
 
+const headerStyles = `
+.header{height:82px!important;background:#07100d!important;border-bottom:1px solid rgba(255,255,255,.08)!important;padding:0 24px!important;position:sticky!important;top:0!important;z-index:50!important;color:#fff!important}
+.header-inner{width:100%;max-width:1600px;height:100%;margin:0 auto;display:flex;align-items:center;gap:18px}
+.header .logo{display:flex;align-items:center;gap:10px;min-width:230px;color:#fff;text-decoration:none}
+.header .logo b{font-size:44px;line-height:1;font-style:italic;font-weight:900;color:#38b817;letter-spacing:-4px}
+.header .logo span{font-size:21px;font-weight:900;letter-spacing:3px;line-height:1;color:#fff}
+.header .logo small{display:block;margin-top:5px;font-size:9px;letter-spacing:.1px;font-weight:500;color:#dce3df}
+.header .catalog{height:48px;display:flex;align-items:center;gap:10px;padding:0 17px;border:0;border-radius:10px;background:linear-gradient(135deg,#38b817,#218d08);color:#fff;font-weight:800;white-space:nowrap}
+.header .search{height:48px;flex:1;display:flex;align-items:center;padding:0!important;border:0!important;border-radius:10px!important;overflow:hidden;background:#fff!important}
+.header .search input{height:100%;flex:1;padding:0 18px;border:0;outline:0;background:#fff;color:#141414;font-size:14px}
+.header .search button{width:52px;height:100%;border:0;background:linear-gradient(135deg,#38b817,#218d08);color:#fff;display:grid;place-items:center}
+.header .top-actions{display:flex;align-items:stretch;gap:4px}
+.header-action{position:relative;min-width:82px;height:58px;border:0;background:transparent;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;border-radius:10px}
+.header-action:hover{background:rgba(255,255,255,.07)}
+.header-action-icon{position:relative;display:grid;place-items:center}
+.header-action-icon svg{width:23px;height:23px}
+.header-action-icon b{position:absolute;right:-9px;top:-8px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#39b817;color:#fff;font-size:10px;display:grid;place-items:center}
+@media(max-width:1050px){.header .logo{min-width:185px}.header .logo b{font-size:38px}.header .logo span{font-size:18px}.header-action{min-width:60px}.header-action>span:last-child{display:none}}
+@media(max-width:760px){.header{height:auto!important;padding:12px 14px!important}.header-inner{display:grid;grid-template-columns:1fr auto;gap:10px}.header .logo{min-width:0}.header .logo b{font-size:36px}.header .logo span{font-size:17px}.header .catalog{height:42px;padding:0 13px}.header .catalog svg:last-child{display:none}.header .search{grid-column:1/-1;grid-row:2;height:46px}.header .top-actions{display:none}}
+`;
+
 function CardPhoto({src,alt}){
   return <div className="photo"><img src={src} alt={alt} loading="lazy"/></div>;
 }
@@ -78,6 +99,7 @@ function HeaderAction({icon:Icon,label,badge}){
 
 export default function App(){
   return <div className="app">
+    <style>{headerStyles}</style>
     <header className="header">
       <div className="header-inner">
         <a className="logo" href="#" aria-label="AS Market">
