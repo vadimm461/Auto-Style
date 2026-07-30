@@ -1,4 +1,4 @@
-import { Bell, BriefcaseBusiness, Building2, Car, Heart, Home, MessageCircle, Plus, Search, ShoppingBag, ShoppingCart, Store, User } from 'lucide-react';
+import { Bell, BriefcaseBusiness, Building2, Car, ChevronDown, Heart, Home, Menu, MessageCircle, Plus, Search, ShoppingBag, ShoppingCart, Store, User } from 'lucide-react';
 
 const img = (id, width = 800) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`;
 
@@ -69,13 +69,33 @@ function OfferCards({items}){
   </div>;
 }
 
+function HeaderAction({icon:Icon,label,badge}){
+  return <button className="header-action">
+    <span className="header-action-icon"><Icon/>{badge ? <b>{badge}</b> : null}</span>
+    <span>{label}</span>
+  </button>;
+}
+
 export default function App(){
   return <div className="app">
     <header className="header">
-      <div className="logo"><b>AS</b><span>MARKET<small>всё для жизни и бизнеса</small></span></div>
-      <button className="catalog">☰ Каталог</button>
-      <div className="search"><input placeholder="Поиск товаров, авто, недвижимости и работы..."/><Search size={20}/></div>
-      <nav className="top-actions"><Heart/><Bell/><ShoppingCart/><User/></nav>
+      <div className="header-inner">
+        <a className="logo" href="#" aria-label="AS Market">
+          <b>AS</b>
+          <span>MARKET<small>всё для жизни и бизнеса</small></span>
+        </a>
+        <button className="catalog"><Menu size={21}/><span>Каталог</span><ChevronDown size={17}/></button>
+        <label className="search">
+          <input placeholder="Поиск по товарам, магазинам, категориям..."/>
+          <button aria-label="Найти"><Search size={22}/></button>
+        </label>
+        <nav className="top-actions" aria-label="Пользовательское меню">
+          <HeaderAction icon={Heart} label="Избранное"/>
+          <HeaderAction icon={Bell} label="Уведомления" badge="3"/>
+          <HeaderAction icon={ShoppingCart} label="Корзина" badge="4"/>
+          <HeaderAction icon={User} label="Профиль"/>
+        </nav>
+      </div>
     </header>
 
     <main>
