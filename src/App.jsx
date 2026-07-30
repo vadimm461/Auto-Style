@@ -1,107 +1,135 @@
+const img = (id, width = 700) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`;
+
 const categories = [
-  ['⌁', 'Электроника'],
-  ['▣', 'Дом и сад'],
-  ['⚙', 'Автотовары'],
-  ['◇', 'Одежда'],
-  ['✦', 'Красота'],
-  ['▦', 'Детское'],
-  ['🚘', 'Авто'],
-  ['⌂', 'Недвижимость'],
+  ['▦', 'Все категории'], ['◉', 'Электроника'], ['♟', 'Одежда и обувь'], ['♣', 'Дом и сад'],
+  ['✿', 'Красота'], ['●', 'Детские товары'], ['⚽', 'Спорт и отдых'], ['◌', 'Автотовары'],
+  ['▲', 'Строительство'], ['♙', 'Животные'], ['•••', 'Ещё'],
 ];
 
-const popular = [
-  { title: 'Смартфон Galaxy S25', price: '15 990 ₽', label: 'Хит', tone: 'violet' },
-  { title: 'Набор инструментов', price: '2 490 ₽', label: '-20%', tone: 'green' },
-  { title: 'Кресло для дома', price: '4 800 ₽', label: 'Новинка', tone: 'orange' },
-  { title: 'Смарт-часы', price: '3 250 ₽', label: 'Хит', tone: 'blue' },
-  { title: 'Городской рюкзак', price: '1 290 ₽', label: '-15%', tone: 'pink' },
+const products = [
+  { title: 'Смартфон Samsung Galaxy S24', price: '15 990 ₽', old: '18 000 ₽', discount: '-15%', rating: '4.8', image: img('photo-1511707171634-5f897ff02aa9') },
+  { title: 'Букет из 25 тюльпанов', price: '1 590 ₽', old: '1 990 ₽', discount: '-20%', rating: '4.9', image: img('photo-1490750967868-88aa4486c946') },
+  { title: 'Радиоуправляемый внедорожник', price: '2 490 ₽', old: '2 790 ₽', discount: '-10%', rating: '4.7', image: img('photo-1594787318286-3d835c1d207f') },
+  { title: 'Смарт-часы Amazfit GTR 4', price: '4 990 ₽', old: '5 600 ₽', discount: '-12%', rating: '4.8', image: img('photo-1523275335684-37898b6baf30') },
+  { title: 'Рюкзак городской унисекс', price: '1 290 ₽', old: '', discount: '', rating: '4.6', image: img('photo-1553062407-98eeb64c6a62') },
+];
+
+const cars = [
+  { title: 'BMW 5 серии, 2.0 AT', price: '1 350 000 ₽', year: '2018', km: '120 000 км', image: img('photo-1555215695-3004980ad54e') },
+  { title: 'Volkswagen Passat, 1.8 AT', price: '890 000 ₽', year: '2016', km: '98 000 км', image: img('photo-1549317661-bd32c8ce0db2') },
+  { title: 'Toyota RAV4, 2.5 AT', price: '1 690 000 ₽', year: '2020', km: '45 000 км', image: img('photo-1541899481282-d53bffe3c35d') },
+  { title: 'Audi A4, 2.0 AT', price: '1 250 000 ₽', year: '2017', km: '110 000 км', image: img('photo-1503376780353-7e6692767b70') },
 ];
 
 const stores = [
-  { name: 'AutoStyle', category: 'Автотовары', rating: '5.0', initials: 'AS' },
-  { name: 'Tech Point', category: 'Электроника', rating: '4.9', initials: 'TP' },
-  { name: 'Green Home', category: 'Дом и сад', rating: '4.9', initials: 'GH' },
-  { name: 'Kids City', category: 'Детские товары', rating: '4.8', initials: 'KC' },
-  { name: 'Beauty Room', category: 'Красота', rating: '4.8', initials: 'BR' },
+  ['Flowers Shop', 'Цветы и подарки', 'FS', '4.9'],
+  ['Techno Store', 'Электроника', 'TS', '4.8'],
+  ['Kids World', 'Детские товары', 'KW', '4.9'],
+  ['AutoStyle', 'Автотовары', 'AS', '4.8'],
+  ['Home Comfort', 'Дом и интерьер', 'HC', '4.7'],
 ];
 
-const services = [
-  { key: 'auto', icon: '🚘', eyebrow: 'AS Auto', title: 'Автомобили и транспорт', text: 'Легковые авто, мотоциклы, спецтехника и запчасти.', meta: '1 248 предложений', action: 'Смотреть авто' },
-  { key: 'estate', icon: '⌂', eyebrow: 'AS Недвижимость', title: 'Жильё и коммерция', text: 'Квартиры, дома, участки, аренда и коммерческие объекты.', meta: '684 объекта', action: 'Найти недвижимость' },
-  { key: 'jobs', icon: '▤', eyebrow: 'AS Работа', title: 'Вакансии и резюме', text: 'Работа рядом, подработка, удалённые вакансии и специалисты.', meta: '392 вакансии', action: 'Найти работу' },
-];
-
-function SectionHeader({ title, action = 'Все' }) {
-  return <div className="section-head"><h2>{title}</h2><button className="text-link">{action}<span>›</span></button></div>;
+function HeaderAction({ icon, title, badge }) {
+  return <button className="head-action"><span className="head-icon">{icon}{badge && <b>{badge}</b>}</span><small>{title}</small></button>;
 }
 
 function ProductCard({ item }) {
   return <article className="product-card">
-    <div className={`product-visual ${item.tone}`}>
-      <span className="product-label">{item.label}</span>
-      <button className="heart-button" aria-label="Добавить в избранное">♡</button>
-      <span className="product-placeholder">▣</span>
+    <div className="product-image">
+      {item.discount && <span className="discount">{item.discount}</span>}
+      <button className="fav">♡</button>
+      <img src={item.image} alt={item.title} loading="lazy" />
     </div>
-    <div className="product-info"><strong>{item.price}</strong><p>{item.title}</p><button className="cart-button"><span>🛒</span>В корзину</button></div>
+    <div className="product-body">
+      <div className="price-line"><strong>{item.price}</strong>{item.old && <del>{item.old}</del>}</div>
+      <p>{item.title}</p>
+      <small className="rating">★ {item.rating}</small>
+    </div>
   </article>;
 }
 
-function StoreCard({ store }) {
-  return <article className="store-card"><div className="store-logo">{store.initials}</div><div className="store-copy"><strong>{store.name}</strong><span>{store.category}</span><small>★ {store.rating}</small></div><span className="store-arrow">›</span></article>;
+function CarCard({ item }) {
+  return <article className="car-card">
+    <div className="car-image"><span>{item.year}</span><button>♡</button><img src={item.image} alt={item.title} loading="lazy" /></div>
+    <strong>{item.price}</strong><p>{item.title}</p><small>{item.km}</small>
+  </article>;
+}
+
+function SectionTitle({ children, action = 'Смотреть все' }) {
+  return <div className="section-title"><h2>{children}</h2><button>{action}</button></div>;
 }
 
 export default function App() {
-  return <div className="app-shell">
-    <header className="topbar">
-      <button className="icon-button menu-button" aria-label="Открыть меню">☰</button>
-      <a className="brand" href="#top" aria-label="AS Market"><span className="brand-mark">AS</span><span className="brand-name">Market</span></a>
-      <nav className="header-actions" aria-label="Пользовательское меню">
-        <button className="icon-button" aria-label="Уведомления">♢<b>3</b></button>
-        <button className="icon-button" aria-label="Избранное">♡</button>
-        <button className="icon-button" aria-label="Корзина">🛒<b>4</b></button>
-        <button className="icon-button" aria-label="Профиль">♙</button>
+  return <div className="page">
+    <header className="header">
+      <a className="logo" href="#top"><b>AS</b><span>MARKET<small>всё для жизни и бизнеса</small></span></a>
+      <button className="catalog">☰ <span>Каталог</span>⌄</button>
+      <form className="header-search" onSubmit={e => e.preventDefault()}><input placeholder="Поиск по товарам, магазинам и объявлениям..."/><button>⌕</button></form>
+      <nav className="header-actions">
+        <HeaderAction icon="♡" title="Избранное" />
+        <HeaderAction icon="♧" title="Уведомления" badge="3" />
+        <HeaderAction icon="🛒" title="Корзина" badge="4" />
+        <HeaderAction icon="♙" title="Войти / Профиль" />
       </nav>
     </header>
 
-    <main id="top">
-      <section className="search-section" aria-label="Поиск">
-        <div className="search-copy"><span>Весь регион в одном месте</span><h1>Что вы ищете?</h1></div>
-        <form className="main-search" onSubmit={(event) => event.preventDefault()}>
-          <span className="search-icon">⌕</span>
-          <input aria-label="Поисковый запрос" placeholder="Товары, магазины, авто, жильё или работа" />
-          <button type="submit">Найти</button>
-        </form>
-        <div className="search-chips"><button>Товары</button><button>Магазины</button><button>Авто</button><button>Недвижимость</button><button>Работа</button></div>
-      </section>
+    <main id="top" className="layout">
+      <div className="main-column">
+        <section className="hero">
+          <div className="hero-copy">
+            <h1>Покупай и продавай<br/>что угодно на<br/><em>AS Market</em></h1>
+            <p>Одна площадка для миллионов возможностей</p>
+            <div className="hero-buttons"><button>К покупкам →</button><button className="outline">Стать продавцом</button></div>
+            <div className="trust"><span>✓ Безопасные сделки</span><span>✓ Защита покупателей</span><span>◉ Поддержка 24/7</span><span>✓ Выгодные условия</span></div>
+          </div>
+          <div className="hero-art">
+            <div className="blob one"></div><div className="blob two"></div>
+            <div className="hero-items"><span>💐</span><span>📱</span><span>🧸</span><span>👜</span><span>🛠️</span><span>🚗</span></div>
+          </div>
+        </section>
 
-      <section className="hero-banner">
-        <div><span className="hero-kicker">AS Market</span><h2>Покупай и продавай<br />по всему региону</h2><p>Магазины, частные объявления и сервисы AS в одном приложении.</p><div className="hero-actions"><button className="primary-button">Смотреть предложения</button><button className="secondary-button"><span>＋</span>Разместить объявление</button></div></div>
-        <div className="hero-symbol" aria-hidden="true"><span>AS</span></div>
-      </section>
+        <section className="categories">
+          {categories.map(([icon, name], i) => <button className={i === 0 ? 'active' : ''} key={name}><span>{icon}</span><small>{name}</small></button>)}
+        </section>
 
-      <section className="content-section categories-section">
-        <SectionHeader title="Категории" action="Все категории" />
-        <div className="category-list">{categories.map(([icon, name]) => <button className="category-item" key={name}><span>{icon}</span><b>{name}</b></button>)}</div>
-      </section>
+        <section className="promo-grid">
+          <article><h3>Магазины</h3><p>Тысячи магазинов<br/>на одной площадке</p><button>Смотреть все →</button><span>🏪</span></article>
+          <article><h3>VIP-магазины</h3><p>Лучшие продавцы<br/>с особыми условиями</p><button>Смотреть все →</button><span>♛</span></article>
+          <article><h3>Барахолка</h3><p>Покупай и продавай<br/>б/у вещи легко</p><button>Перейти →</button><span>🪑</span></article>
+          <article><h3>Автомобили</h3><p>Новые и б/у авто<br/>по лучшим ценам</p><button>Смотреть авто →</button><span>🚘</span></article>
+          <article><h3>Акции и скидки</h3><p>Выгодные предложения<br/>каждый день</p><button>Смотреть все →</button><span>%</span></article>
+        </section>
 
-      <section className="content-section"><SectionHeader title="Популярное" /><div className="horizontal-grid product-grid">{popular.map(item => <ProductCard item={item} key={item.title} />)}</div></section>
-      <section className="content-section"><SectionHeader title="Лучшие магазины" /><div className="horizontal-grid store-grid">{stores.map(store => <StoreCard store={store} key={store.name} />)}</div></section>
+        <div className="split-products">
+          <section><SectionTitle>Популярные товары</SectionTitle><div className="cards-row">{products.map(p => <ProductCard item={p} key={p.title}/>)}</div></section>
+          <section><SectionTitle>Б/у автомобили</SectionTitle><div className="cars-row">{cars.map(c => <CarCard item={c} key={c.title}/>)}</div></section>
+        </div>
 
-      <section className="service-stack" aria-label="Сервисы AS">
-        {services.map(service => <article className={`service-banner ${service.key}`} key={service.key}>
-          <div className="service-icon">{service.icon}</div>
-          <div className="service-content"><span>{service.eyebrow}</span><h2>{service.title}</h2><p>{service.text}</p><small>{service.meta}</small></div>
-          <button>{service.action}<span>›</span></button>
-        </article>)}
-      </section>
+        <section className="benefits">
+          <div><b>♡</b><span><strong>Безопасные сделки</strong><small>Проверяем продавцов</small></span></div>
+          <div><b>▣</b><span><strong>Удобная доставка</strong><small>По всей стране и миру</small></span></div>
+          <div><b>◉</b><span><strong>Поддержка 24/7</strong><small>Мы всегда на связи</small></span></div>
+          <div><b>▭</b><span><strong>Простая оплата</strong><small>Карты и рассрочка</small></span></div>
+        </section>
+      </div>
+
+      <aside className="sidebar">
+        <section className="vip-card">
+          <div><h2>Продвигай свой магазин</h2><p>VIP-рамка, приоритет в поиске и специальные места</p><button>Подробнее</button></div><span className="crown">♛<small>VIP</small></span>
+          <div className="vip-features"><span>♕ VIP-магазин</span><span>◉ Продвижение</span><span>⌁ Аналитика</span></div>
+          <div className="featured-store"><div className="round-logo">FS</div><div><strong>Flowers Shop <i>VIP</i></strong><small>Цветы и подарки</small><span>★ 4.9 · 1250 продаж</span></div><button>Перейти</button></div>
+        </section>
+
+        <section className="auto-side"><div><h2>🚘 AS CARS</h2><p>Новые и б/у автомобили<br/>в одном месте</p><button>Перейти к авто</button></div><img src={img('photo-1555215695-3004980ad54e', 900)} alt="AS Cars"/><div className="auto-links"><span>Новые авто</span><span>С пробегом</span><span>Подбор авто</span><span>Автосалоны</span></div></section>
+
+        <section className="purple-banner"><div><strong>Станьте VIP-продавцом<br/>и увеличьте продажи!</strong><button>Подробнее</button></div><span>VIP</span></section>
+
+        <section className="new-stores"><SectionTitle>Новые магазины</SectionTitle><div className="store-list">{stores.map(([name, cat, initials, rating]) => <article key={name}><div>{initials}</div><strong>{name}</strong><small>{cat}</small><span>★ {rating}</span></article>)}</div></section>
+
+        <section className="app-box"><div><strong>Приложение AS Market</strong><p>Покупайте и продавайте<br/>со смартфона</p></div><div className="store-buttons"><button> App Store</button><button>▶ Google Play</button></div><div className="qr">▦</div></section>
+      </aside>
     </main>
 
-    <nav className="bottom-nav" aria-label="Нижняя навигация">
-      <button className="active"><span>⌂</span><small>Главная</small></button>
-      <button><span>⌕</span><small>Поиск</small></button>
-      <button className="add-button" aria-label="Разместить объявление">＋</button>
-      <button><span>♡</span><small>Избранное</small></button>
-      <button><span>♙</span><small>Профиль</small></button>
-    </nav>
+    <nav className="mobile-nav"><button className="active">⌂<small>Главная</small></button><button>▦<small>Каталог</small></button><button className="sell">＋</button><button>♡<small>Чаты</small></button><button>♙<small>Профиль</small></button></nav>
   </div>;
 }
