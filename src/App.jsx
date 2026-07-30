@@ -10,11 +10,11 @@ const products = [
 ];
 
 const stores = [
-  {name:'AutoStyle',category:'Автотовары',rating:'5.0',reviews:486,emoji:'🛞',badge:'Топ продавец'},
-  {name:'Green Home',category:'Дом и сад',rating:'4.9',reviews:312,emoji:'🪴',badge:'Проверен'},
-  {name:'Tech Point',category:'Электроника',rating:'4.9',reviews:278,emoji:'💻',badge:'Быстрая доставка'},
-  {name:'Kids City',category:'Детские товары',rating:'4.8',reviews:241,emoji:'🧸',badge:'Выбор покупателей'},
-  {name:'Beauty Room',category:'Красота',rating:'4.8',reviews:198,emoji:'🧴',badge:'Популярный'}
+  {name:'AutoStyle',category:'Автотовары',rating:'5.0',reviews:486,emoji:'🛞',badge:'TOP'},
+  {name:'Green Home',category:'Дом и сад',rating:'4.9',reviews:312,emoji:'🪴',badge:'TOP'},
+  {name:'Tech Point',category:'Электроника',rating:'4.9',reviews:278,emoji:'💻',badge:'TOP'},
+  {name:'Kids City',category:'Детские товары',rating:'4.8',reviews:241,emoji:'🧸',badge:'TOP'},
+  {name:'Beauty Room',category:'Красота',rating:'4.8',reviews:198,emoji:'🧴',badge:'TOP'}
 ];
 
 const services = [
@@ -102,17 +102,16 @@ export default function App(){
 
       <section className="section"><div className="section-title"><h2>Популярные товары</h2><a>Смотреть все</a></div><div className="products">{products.map((p,i)=><article className="product" key={p.name}><div className="discount">-{10+i*5}%</div><button className="fav">♡</button><div className="photo">{p.emoji}</div><strong>{p.price}</strong><p>{p.name}</p><small>⭐ 4.{8-i%3}</small></article>)}</div></section>
 
-      <section className="section top-stores-section">
-        <div className="section-title"><div><span className="eyebrow">Проверенные продавцы</span><h2>Магазины с лучшим рейтингом</h2></div><a>Все магазины</a></div>
-        <div className="top-stores">
-          {stores.map(store=><article className="store-card" key={store.name}>
-            <div className="store-logo">{store.emoji}</div>
-            <div className="store-main">
-              <div className="store-name-row"><h3>{store.name}</h3><span className="store-badge">{store.badge}</span></div>
-              <p>{store.category}</p>
-              <div className="store-rating"><strong>★ {store.rating}</strong><span>{store.reviews} отзывов</span></div>
-            </div>
-            <button className="store-open">Открыть магазин →</button>
+      <section className="section">
+        <div className="section-title"><h2>Магазины с лучшим рейтингом</h2><a>Все магазины</a></div>
+        <div className="products">
+          {stores.map(store=><article className="product store-product" key={store.name}>
+            <div className="discount">{store.badge}</div>
+            <button className="fav">♡</button>
+            <div className="photo">{store.emoji}</div>
+            <strong>⭐ {store.rating}</strong>
+            <p>{store.name}</p>
+            <small>{store.category} · {store.reviews} отзывов</small>
           </article>)}
         </div>
       </section>
