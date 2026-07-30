@@ -17,6 +17,22 @@ const stores = [
   {name:'Beauty Room',category:'Красота',rating:'4.8',reviews:198,emoji:'🧴',badge:'TOP'}
 ];
 
+const autoOffers = [
+  {name:'Skoda Octavia 2019',price:'16 900 $',emoji:'🚘',badge:'AS Auto',meta:'Бензин · Автомат · 118 000 км'},
+  {name:'BMW X5 2017',price:'29 500 $',emoji:'🚙',badge:'AS Auto',meta:'Дизель · Автомат · 164 000 км'},
+  {name:'Toyota Camry 2020',price:'24 300 $',emoji:'🚗',badge:'AS Auto',meta:'Бензин · Автомат · 92 000 км'},
+  {name:'Mercedes-Benz Sprinter',price:'22 800 $',emoji:'🚐',badge:'AS Auto',meta:'Дизель · Механика · 210 000 км'},
+  {name:'Yamaha MT-07',price:'7 600 $',emoji:'🏍️',badge:'AS Auto',meta:'689 см³ · 2021 год'}
+];
+
+const jobOffers = [
+  {name:'Менеджер по продажам',price:'от 12 000 ₽',emoji:'👨‍💼',badge:'AS Работа',meta:'Полный день · Тирасполь'},
+  {name:'Водитель-экспедитор',price:'от 15 000 ₽',emoji:'🚚',badge:'AS Работа',meta:'Опыт от 1 года · Бендеры'},
+  {name:'Продавец-консультант',price:'от 9 500 ₽',emoji:'🛍️',badge:'AS Работа',meta:'Сменный график · Тирасполь'},
+  {name:'SMM-специалист',price:'от 11 000 ₽',emoji:'📲',badge:'AS Работа',meta:'Удалённо · Частичная занятость'},
+  {name:'Автомеханик',price:'от 14 000 ₽',emoji:'🔧',badge:'AS Работа',meta:'Полный день · Рыбница'}
+];
+
 const services = [
   {
     key:'market',
@@ -51,6 +67,19 @@ const services = [
     action:'Найти работу'
   }
 ];
+
+function OfferCards({items}){
+  return <div className="products">
+    {items.map(item=><article className="product" key={item.name}>
+      <div className="discount">{item.badge}</div>
+      <button className="fav">♡</button>
+      <div className="photo">{item.emoji}</div>
+      <strong>{item.price}</strong>
+      <p>{item.name}</p>
+      <small>{item.meta}</small>
+    </article>)}
+  </div>;
+}
 
 export default function App(){
   return <div className="app">
@@ -116,7 +145,15 @@ export default function App(){
         </div>
       </section>
 
-      <section className="cars"><div><Car/><h2>AS Auto</h2><p>Новые и б/у автомобили, мотоциклы и запчасти</p><button>Перейти в AS Auto</button></div><div className="car-art">🚘</div></section>
+      <section className="section">
+        <div className="section-title"><h2>Случайные предложения AS Auto</h2><a>Все автомобили</a></div>
+        <OfferCards items={autoOffers}/>
+      </section>
+
+      <section className="section">
+        <div className="section-title"><h2>Случайные предложения AS Работа</h2><a>Все вакансии</a></div>
+        <OfferCards items={jobOffers}/>
+      </section>
     </main>
 
     <nav className="mobile-nav"><button><Home/><span>Главная</span></button><button><Store/><span>Каталог</span></button><button className="sell"><Plus/></button><button><MessageCircle/><span>Чаты</span></button><button><User/><span>Профиль</span></button></nav>
